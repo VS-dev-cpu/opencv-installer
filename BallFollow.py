@@ -19,7 +19,7 @@ ballY = 0
 ballSize = 0
 ballDist = 0
 
-debugging = True
+debugging = False
 
 while True:
     _, frame = cap.read()
