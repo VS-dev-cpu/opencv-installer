@@ -19,7 +19,7 @@ ballY = 0
 ballSize = 0
 ballDist = 0
 
-debugging = False
+debugging = True
 
 while True:
     _, frame = cap.read()
@@ -28,11 +28,11 @@ while True:
     low_red = np.array([161, 155, 84])
     high_red = np.array([179, 255, 255])
     red_mask = cv2.inRange(hsv_frame, low_red, high_red)
-    _, contours, _ = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=lambda x:cv2.contourArea(x), reverse=True)
 
-    ballX = 480 / 2
-    ballY = 320 / 2
+    ballX = int(480 / 2)
+    ballY = int(640 / 2)
     ballSize = 0
     ballDist = 0
 
@@ -48,13 +48,13 @@ while True:
           str(ballSize) + ', ' + str(ballDist) + '\n')
         break
 
-    ser.write(str(ballX) + ',' + str(ballY) + ',')
-    ser.write(str(ballSize) + ',' + str(ballDist))
+    ser.write(bytes(str(ballX), 'utf-8') + b',' + bytes(str(ballY), 'utf-8') + b',')
+    ser.write(bytes(str(ballSize), 'utf-8') + b',' + bytes(str(ballDist), 'utf-8'))
     ser.write(b'\n')
     
     if(debugging):
       cv2.line(frame, (ballX, 0), (ballX, 480), (0, 255, 0), 2)
-      cv2.line(frame, (ballY, 0), (ballY, 320), (0, 255, 0), 2)
+      cv2.line(frame, (0, ballY), (640, ballY), (0, 255, 0), 2)
     
       cv2.imshow("Frame", frame)
       
