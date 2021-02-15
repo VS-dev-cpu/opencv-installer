@@ -1,4 +1,4 @@
-commands = ["sudo rpi-eeprom-update", "sudo rpi-eeprom-update -a", "sudo reboot", "sudo apt-get update", "sudo apt-get upgrade", "sudo apt-get install cmake gfortran",
+commands = ["empty", "sudo rpi-eeprom-update", "sudo rpi-eeprom-update -a", "sudo reboot", "sudo apt-get update", "sudo apt-get upgrade", "sudo apt-get install cmake gfortran",
             "sudo apt-get install libjpeg-dev libtiff-dev libgif-dev", "sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev",
             "sudo apt-get install libgtk2.0-dev libcanberra-gtk*", "sudo apt-get install libxvidcore-dev libx264-dev libgtk-3-dev",
             "sudo apt-get install libtbb2 libtbb-dev libdc1394-22-dev libv4l-dev", "sudo apt-get install libopenblas-dev libatlas-base-dev libblas-dev",
@@ -35,19 +35,23 @@ commands = ["sudo rpi-eeprom-update", "sudo rpi-eeprom-update -a", "sudo reboot"
             "cd ~/opencv/build/lib/python3", "sudo cp cv2.cpython-37m-arm-linux-gnueabihf.so \ /usr/local/lib/python3.7/dist-packages/cv2/python-3.7", "cd ~/opencv",
             "sudo rm -r build", "sudo rm -rf ~/opencv", "sudo rm -rf ~/opencv_contrib"]
 
+import subprocess
+
 while (True):
     f = open("install.dat", "r")
     num = f.read()
     f.close()
-    if(command[num] == "sudo reboot"):
+    if (len(commands) - num != 0:
         f = open("install.dat", "w")
         f.write(num+1)
         f.close()
-        #execute command with id '3'
-    elif (len(commands) - num != 0:
-        f = open("install.dat", "w")
-        f.write(num+1)
-        f.close()
-        #execute command with id 'num'
+        cmd(commands[num])
     else:
-        #delete file
+        cmd("cd ~/opencv-installer")
+        cmd("rm install.dat")
+        cmd("rm opencv-installer.py")
+
+def cmd(string commandToRun):
+    subprocess.run(commandToRun)
+    while (!subprocess.CompletedProcess()):
+        pass
