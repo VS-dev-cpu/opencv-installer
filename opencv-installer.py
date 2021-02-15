@@ -35,18 +35,19 @@ commands = ["sudo rpi-eeprom-update", "sudo rpi-eeprom-update -a", "sudo reboot"
             "cd ~/opencv/build/lib/python3", "sudo cp cv2.cpython-37m-arm-linux-gnueabihf.so \ /usr/local/lib/python3.7/dist-packages/cv2/python-3.7", "cd ~/opencv",
             "sudo rm -r build", "sudo rm -rf ~/opencv", "sudo rm -rf ~/opencv_contrib"]
 
-f = open("install.dat", "r")
-
-num = f.read()
-
-f.close()
-
 while (True):
-            if(num == 3):
-                        f = open("install.dat", "w")
-                        f.write("4")
-                        f.close()
-                        
-            else:
-                        while (len(commands) - num != 0):
-                                    
+    f = open("install.dat", "r")
+    num = f.read()
+    f.close()
+    if(command[num] == "sudo reboot"):
+        f = open("install.dat", "w")
+        f.write(num+1)
+        f.close()
+        #execute command with id '3'
+    elif (len(commands) - num != 0:
+        f = open("install.dat", "w")
+        f.write(num+1)
+        f.close()
+        #execute command with id 'num'
+    else:
+        #delete file
